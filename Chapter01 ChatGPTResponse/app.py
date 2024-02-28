@@ -1,18 +1,14 @@
-import openai
+from openai import OpenAI
 
-# Use OpenAI API Key
-openai.api_key= "<YOUR_API_KEY>"
+client = OpenAI(api_key="<insert your key>")
 
-# Ask the user for question
 question = input("What would you Like to ask OpenAI? ")
-response = openai.Completion.create(
-    engine="text-davinci-003",
-    prompt=question,
-    max_tokens=512,
-    n=1,
-    stop=None,
-    temperature=0.8,
-)
-print(response)
-answer = response["choices"][0][ "text"]
-print("OpenAI:" + answer)
+
+# Call the openai ChatCompletion endpoint, with th ChatGPT model
+response = client.chat.completions.create(model="gpt-3.5-turbo",
+messages=[
+      {"role": "user", "content": question}
+  ])
+
+# Extract the response
+print(response.choices[0].message.content)
